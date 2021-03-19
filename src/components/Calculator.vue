@@ -1,5 +1,5 @@
 <template lang="pug">
-form.flex.flex-wrap.justify-center.-mx-4
+form.flex.flex-wrap.-mx-4
   div(class='w-full lg:w-1/2 xl:w-1/3 px-4 space-y-6 mb-8')
     label.block
       .label 當期刷卡金額
@@ -18,7 +18,7 @@ form.flex.flex-wrap.justify-center.-mx-4
             v-model='qualification'
             :value='item'
           )
-          span.ml-2 {{ item.name }}
+          span.ml-2.text-xl {{ item.name }}
 
     div.space-y-2
       .label 帳戶類型
@@ -29,38 +29,43 @@ form.flex.flex-wrap.justify-center.-mx-4
             v-model='account'
             :value='item'
           )
-          span.ml-2 {{ item.name }}
-
-
+          span.ml-2.text-xl {{ item.name }}
 
   div(class='w-full lg:w-1/2 px-4')
     .rounded-2xl.border.border-gray-300.bg-gray-50.p-5.space-y-5
       div
         .title 回饋金額
-        .text-5xl.font-black.gradient-text.from-blue-700.to-blue-900 ${{ format(result) }}
+        .text-5xl.font-black.gradient-text.from-blue-700.to-blue-900
+          small $
+          | {{ format(result) }}
 
       div
         .title 參考算式
-        .flex.flex-wrap.text-2xl.font-bold.text-gray-900
-          .flex(:class='{ "text-pink-600": isAccountResultOverLimit }')
-            span ${{ accountResult }}
-            sup.text-sm
+        .flex.flex-wrap.text-3xl.font-bold.text-gray-900
+          .space-x-1(:class='{ "text-pink-600": isAccountResultOverLimit }')
+            span
+              small $
+              | {{ format(accountResult) }}
+            sub.text-sm
               | 特選 {{ account.accountRate * 100 }}%
               span(v-if='isAccountResultOverLimit') (封頂)
 
           .text-gray-700.px-1 +
-          .flex(:class='{ "text-pink-600": isQualificationResultOverLimit }')
-            span ${{ qualificationResult }}
-            sup.text-sm
+          .space-x-1(:class='{ "text-pink-600": isQualificationResultOverLimit }')
+            span
+              small $
+              | {{ format(qualificationResult) }}
+            sub.text-sm
               | 資格 {{ qualification.qualificationRate * 100 }}%
               span(v-if='isQualificationResultOverLimit') (封頂)
 
 
           .text-gray-700.px-1 +
-
-          .flex
-            span ${{ basicResult }}
-            sup.text-sm
+          .space-x-1
+            span
+              small $
+              | {{ format(basicResult) }}
+            sub.text-sm
               | 基本 1%
 
       div
@@ -106,13 +111,16 @@ const accounts = [
 
 const account = ref(accounts[0])
 
-const expend = ref(10000)
+
+const expend = ref(+localStorage.getItem('expend') ?? 10000)
 
 watch(expend, (value) => {
   const min = 0
-  const max = 100_000_000
+  const max = 1_000_000
   if (value >= max) expend.value = max
   else if (value <= min) expend.value = min
+
+  localStorage.setItem('expend', value)
 })
 
 const { round } = Math
@@ -156,10 +164,10 @@ const format = new Intl.NumberFormat('en-US').format
   @apply text-gray-700 font-medium text-lg
 
 .radio
-  @apply rounded bg-gray-200 border-transparent text-gray-700 focus:border-transparent focus:bg-gray-200 focus:ring-1 focus:ring-offset-2 focus:ring-gray-500
+  @apply rounded-full bg-gray-200 border-transparent text-gray-700 focus:border-transparent focus:bg-gray-200 focus:ring-1 focus:ring-offset-2 focus:ring-gray-500
 
 .field
-  @apply mt-1 block w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0
+  @apply mt-1 block w-full rounded-lg bg-gray-100 border-transparent text-xl focus:border-gray-500 focus:bg-white focus:ring-0
 
 .title
   @apply mb-1 font-medium text-gray-700

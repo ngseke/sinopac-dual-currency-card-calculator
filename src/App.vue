@@ -2,8 +2,10 @@
 .flex.flex-col.h-screen
   main.flex-1.container
     .py-6
-      h1.font-black.bg-clip-text.text-transparent.bg-gradient-to-r.from-gray-700.to-black(class='text-4xl mb-4 lg:mb-8 lg:text-5xl lg:text-center max-w-full')
-        | 2021 永豐幣倍卡回饋計算機
+      div
+        h1(class='mb-2 font-black bg-clip-text text-transparent bg-gradient-to-r from-gray-700 to-black text-2xl lg:text-4xl max-w-full') 2021 永豐幣倍卡回饋計算機
+        p.text-xl.italic.text-gray-700 2021/1/1 ~ 6/30
+      hr(class='my-4 xl:my-6')
       Calculator
   TheFooter
 </template>
