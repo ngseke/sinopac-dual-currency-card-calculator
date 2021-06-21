@@ -11,70 +11,62 @@ form.flex.flex-wrap.-mx-4
 
     div.space-y-2
       .label 資格
-      .space-x-6
-        label.inline-flex.items-center.cursor-pointer(v-for='item in qualifications')
-          input.radio(
-            type='radio'
-            v-model='qualification'
-            :value='item'
-          )
-          span.ml-2.text-xl {{ item.name }}
+      div
+        button.radio(
+          type='button'
+          v-for='item in qualifications'
+          :class='{ active: (qualification.name === item.name) }'
+          @click='qualification = item'
+        )
+          span.font-medium {{ item.name }}
+          span.text-xs.text-gray-600 {{ item.content }}
 
     div.space-y-2
       .label 帳戶類型
-      .space-x-6
-        label.inline-flex.items-center.cursor-pointer(v-for='item in accounts')
-          input.radio(
-            type='radio'
-            v-model='account'
-            :value='item'
-          )
-          span.ml-2.text-xl {{ item.name }}
+      div
+        button.radio(
+          type='button'
+          v-for='item in accounts'
+          :class='{ active: (account.name === item.name) }'
+          @click='account = item'
+        )
+          span.font-bold {{ item.name }}
+          span.text-xs.text-gray-600 {{ item.content }}
 
-  div(class='w-full lg:w-1/2 px-4')
-    .rounded-2xl.border.border-gray-300.bg-gray-50.p-5.space-y-5
+  div(class='w-full lg:w-1/2 xl:w-1/3 px-4')
+    .rounded-2xl.border.border-gray-300.p-5.space-y-5
       div
         .title 回饋金額
-        .text-5xl.font-black.gradient-text.from-blue-700.to-blue-900
+        .text-4xl.font-black.gradient-text.from-yellow-400.to-yellow-600
           small $
           | {{ format(result) }}
 
       div
-        .title 參考算式
-        .flex.flex-wrap.text-3xl.font-bold.text-gray-900
-          .space-x-1(:class='{ "text-pink-600": isAccountResultOverLimit }')
-            span
-              small $
-              | {{ format(accountResult) }}
-            sub.text-sm
-              | 特選 {{ account.accountRate * 100 }}%
-              span(v-if='isAccountResultOverLimit') (封頂)
-
-          .text-gray-700.px-1 +
-          .space-x-1(:class='{ "text-pink-600": isQualificationResultOverLimit }')
-            span
-              small $
-              | {{ format(qualificationResult) }}
-            sub.text-sm
-              | 資格 {{ qualification.qualificationRate * 100 }}%
-              span(v-if='isQualificationResultOverLimit') (封頂)
-
-
-          .text-gray-700.px-1 +
-          .space-x-1
-            span
-              small $
-              | {{ format(basicResult) }}
-            sub.text-sm
-              | 基本 1%
-
-      div
         .title 平均回饋率
-        .text-4xl.font-bold.gradient-text.from-gray-700.to-black
+        .text-3xl.font-bold.gradient-text.from-gray-700.to-black
           template(v-if='avgRate') {{ avgRate }}%
           template(v-else) -
 
-      p.italic.text-sm.text-gray-500 計算結果僅供參考
+      div
+        .title 參考算式
+        div
+          .flex.items-center(
+            v-for='{ name, value, rate, isOverLimit, sign } in formulaTable'
+          )
+            div.w-6.text-lg.font-medium.text-gray-500 {{ sign }}
+            .space-x-1
+              span {{ name }}
+              span.font-mono {{ rate }}%
+              span(v-if='isOverLimit')  (已封頂)
+            .flex-1.price(:class='{ "text-pink-600": isOverLimit }')
+              small $
+              span {{ value }}
+          .border-b.border-gray-500.-mx-1
+          .price
+            small $
+            | {{ format(result) }}
+
+      p.italic.text-sm.text-gray-500 結果僅供參考
 </template>
 
 <script setup>
@@ -85,8 +77,8 @@ const qualifications = [
     name: '懂匯',
     content: '等值台幣 1 元以上',
     qualificationRate: .01,
-    qualificationLimit: 600,
-    accountsLimit: 300,
+    qualificationLimit: 200,
+    accountsLimit: 200,
   },
   {
     name: '超匯',
@@ -101,11 +93,13 @@ const qualification = ref(qualifications[0])
 const accounts = [
   {
     name: '數位',
-    accountRate: .06,
+    content: '已具備有效之永豐銀行DAWHO數位存款帳戶',
+    accountRate: .03,
   },
   {
     name: '實體',
-    accountRate: .05,
+    content: '係指本行一般外幣存款帳戶且尚未持有DAWHO數位帳戶之客戶',
+    accountRate: .02,
   },
 ]
 
@@ -116,9 +110,9 @@ const expend = ref(+localStorage.getItem('expend') ?? 10000)
 
 watch(expend, (value) => {
   const min = 0
-  const max = 1_000_000
+  const max = 10_000_000
   if (value >= max) expend.value = max
-  else if (value <= min) expend.value = min
+  else if (value < min) expend.value = min
 
   localStorage.setItem('expend', value)
 })
@@ -157,6 +151,28 @@ const result = computed(() => {
 const avgRate = computed(() => +(result.value / expend.value * 100).toFixed(2))
 
 const format = new Intl.NumberFormat('en-US').format
+
+const formulaTable = computed(() => [
+  {
+    name: '特選',
+    value: format(accountResult.value),
+    rate: account.value.accountRate * 100,
+    isOverLimit: isAccountResultOverLimit.value,
+  },
+  {
+    name: '資格',
+    value: format(qualificationResult.value),
+    rate: qualification.value.qualificationRate * 100,
+    isOverLimit: isQualificationResultOverLimit.value,
+  },
+  {
+    name: '基本',
+    value: format(basicResult.value),
+    rate: 1,
+    isOverLimit: false,
+    sign: '+',
+  },
+])
 </script>
 
 <style lang="sass" scoped>
@@ -164,14 +180,20 @@ const format = new Intl.NumberFormat('en-US').format
   @apply text-gray-700 font-medium text-lg
 
 .radio
-  @apply rounded-full bg-gray-200 border-transparent text-gray-700 focus:border-transparent focus:bg-gray-200 focus:ring-1 focus:ring-offset-2 focus:ring-gray-500
+  @apply inline-flex flex-col rounded-lg bg-gray-100 border border-transparent p-2 px-3 mb-2 mr-2 hover:border-gray-300 focus:outline-none
+  @apply transition-colors duration-100
+  &.active
+    @apply border-gray-500
 
 .field
-  @apply mt-1 block w-full rounded-lg bg-gray-100 border-transparent text-xl focus:border-gray-500 focus:bg-white focus:ring-0
+  @apply mt-1 block w-full rounded-lg bg-gray-100 border-transparent text-xl focus:border-gray-500 focus:bg-white focus:ring-0 text-left
 
 .title
-  @apply mb-1 font-medium text-gray-700
+  @apply mb-1 text-lg font-medium text-blue-900
 
 .gradient-text
   @apply bg-clip-text text-transparent bg-gradient-to-r
+
+.price
+  @apply text-2xl font-bold text-right font-mono
 </style>
