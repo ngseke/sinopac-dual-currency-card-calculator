@@ -4,15 +4,12 @@ footer.text-sm
   a.block.link(
     target='_blank'
     :href='url'
-    :class='{ "line-through opacity-50": stale }'
-    v-for='{ url, name, stale } in links'
+    v-for='{ url, name } in links'
   ) {{ name }}
   iframe.mt-2(src='https://ghbtns.com/github-btn.html?user=ngseke&repo=sinopac-dual-currency-card-calculator&type=star' frameborder='0' scrolling='0' width='150' height='20' title='GitHub')
 </template>
 
 <script setup>
-import { computed, ref, watch } from 'vue'
-
 const links = [
   {
     name: 'teofil @ [情報]  永豐幣倍下半年權益',
