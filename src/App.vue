@@ -10,7 +10,6 @@
           type='button'
           @click='toggleDark'
           title='切換深色模式'
-          v-if='false'
         ) {{ isDark ? '☀️' : '🌕' }}
       hr(class='-mx-4 xl:mx-0 my-4 xl:my-3 border-gray-200 dark:border-gray-700')
       Calculator

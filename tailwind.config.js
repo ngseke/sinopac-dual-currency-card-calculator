@@ -1,6 +1,13 @@
 module.exports = {
-  purge: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
-  darkMode: 'media',
+  mode: 'jit',
+  purge: {
+    content: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
+    // https://github.com/tailwindlabs/tailwindcss/issues/2943
+    options: {
+      safelist: ['dark'],
+    },
+  },
+  darkMode: 'class',
   theme: {
     extend: {
       container: {
