@@ -3,4 +3,4 @@
 
 https://ngseke.github.io/sinopac-dual-currency-card-calculator/
 
-![](https://i.imgur.com/urCuMrZ.png)
+![](https://i.imgur.com/OY89i9t.png)
