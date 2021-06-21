@@ -190,7 +190,7 @@ const formulaTable = computed(() => [
     @apply text-xs text-gray-600 dark:text-gray-400 text-left
 
 .field
-  @apply mt-1 block w-full rounded-lg bg-gray-100 dark:bg-gray-800 dark:text-white border-transparent text-xl  focus:border-gray-500 focus:bg-white focus:ring-0 text-left
+  @apply mt-1 block w-full rounded-lg bg-gray-100 dark:bg-gray-800 dark:text-white border-transparent text-xl focus:border-gray-500  focus:ring-0 text-left
 
 .title
   @apply mb-1 text-lg font-medium text-blue-900 dark:text-blue-400
