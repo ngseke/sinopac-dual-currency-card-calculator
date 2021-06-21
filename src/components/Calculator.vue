@@ -71,6 +71,7 @@ form.flex.flex-wrap.-mx-4
 
 <script setup>
 import { computed, ref, watch } from 'vue'
+import { useLocalStorage } from '@vueuse/core'
 
 const qualifications = [
   {
@@ -105,16 +106,13 @@ const accounts = [
 
 const account = ref(accounts[0])
 
-
-const expend = ref(+localStorage.getItem('expend') ?? 10000)
+const expend = useLocalStorage('expend', 10000)
 
 watch(expend, (value) => {
   const min = 0
-  const max = 10_000_000
+  const max = 9_999_999
   if (value >= max) expend.value = max
   else if (value < min) expend.value = min
-
-  localStorage.setItem('expend', value)
 })
 
 const { round } = Math
