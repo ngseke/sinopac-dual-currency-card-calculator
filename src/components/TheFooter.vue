@@ -1,6 +1,6 @@
 <template lang="pug">
 footer.text-sm
-  .text-gray-700.mr-2.font-medium 資料來源
+  .text-gray-700.mr-2.font-medium(class='dark:text-gray-300') 資料來源
   a.block.link(
     target='_blank'
     :href='url'

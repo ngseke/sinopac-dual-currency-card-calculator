@@ -18,8 +18,8 @@ form.flex.flex-wrap.-mx-4
           :class='{ active: (qualification.name === item.name) }'
           @click='qualification = item'
         )
-          span.font-medium {{ item.name }}
-          span.text-xs.text-gray-600 {{ item.content }}
+          span.name {{ item.name }}
+          span.content {{ item.content }}
 
     div.space-y-2
       .label 帳戶類型
@@ -30,11 +30,11 @@ form.flex.flex-wrap.-mx-4
           :class='{ active: (account.name === item.name) }'
           @click='account = item'
         )
-          span.font-bold {{ item.name }}
-          span.text-xs.text-gray-600 {{ item.content }}
+          span.name {{ item.name }}
+          span.content {{ item.content }}
 
   div(class='w-full lg:w-1/2 xl:w-1/3 px-4')
-    .rounded-2xl.border.border-gray-300.p-5.space-y-5
+    .rounded-2xl.border.border-gray-300.p-5.space-y-5(class='dark:border-gray-700')
       div
         .title 回饋金額
         .text-4xl.font-black.gradient-text.from-yellow-400.to-yellow-600
@@ -54,11 +54,11 @@ form.flex.flex-wrap.-mx-4
             v-for='{ name, value, rate, isOverLimit, sign } in formulaTable'
           )
             div.w-6.text-lg.font-medium.text-gray-500 {{ sign }}
-            .space-x-1
+            .space-x-1(class='dark:text-white')
               span {{ name }}
               span.font-mono {{ rate }}%
               span(v-if='isOverLimit')  (已封頂)
-            .flex-1.price(:class='{ "text-pink-600": isOverLimit }')
+            .flex-1.price(:class='{ over: isOverLimit }')
               small $
               span {{ value }}
           .border-b.border-gray-500.-mx-1
@@ -177,23 +177,29 @@ const formulaTable = computed(() => [
 
 <style lang="sass" scoped>
 .label
-  @apply text-gray-700 font-medium text-lg
+  @apply text-gray-700 dark:text-gray-200 font-medium text-lg
 
 .radio
-  @apply inline-flex flex-col rounded-lg bg-gray-100 border border-transparent p-2 px-3 mb-2 mr-2 hover:border-gray-300 focus:outline-none
+  @apply inline-flex flex-col rounded-lg bg-gray-100 dark:bg-gray-800 border border-transparent p-2 px-3 mb-2 mr-2 hover:border-gray-300 focus:outline-none
   @apply transition-colors duration-100
   &.active
-    @apply border-gray-500
+    @apply border-gray-500 dark:border-gray-400
+  .name
+    @apply dark:text-white
+  .content
+    @apply text-xs text-gray-600 dark:text-gray-400 text-left
 
 .field
-  @apply mt-1 block w-full rounded-lg bg-gray-100 border-transparent text-xl focus:border-gray-500 focus:bg-white focus:ring-0 text-left
+  @apply mt-1 block w-full rounded-lg bg-gray-100 dark:bg-gray-800 dark:text-white border-transparent text-xl  focus:border-gray-500 focus:bg-white focus:ring-0 text-left
 
 .title
-  @apply mb-1 text-lg font-medium text-blue-900
+  @apply mb-1 text-lg font-medium text-blue-900 dark:text-blue-400
 
 .gradient-text
   @apply bg-clip-text text-transparent bg-gradient-to-r
 
 .price
-  @apply text-2xl font-bold text-right font-mono
+  @apply text-2xl font-bold text-right font-mono dark:text-white
+  &.over
+    @apply text-pink-600 dark:text-pink-500
 </style>
