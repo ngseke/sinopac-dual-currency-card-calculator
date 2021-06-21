@@ -14,9 +14,9 @@ form.flex.flex-wrap.-mx-4
       div
         button.radio(
           type='button'
-          v-for='item in qualifications'
+          v-for='(item, index) in qualifications'
           :class='{ active: (qualification.name === item.name) }'
-          @click='qualification = item'
+          @click='qualificationIndex = index'
         )
           span.name {{ item.name }}
           span.content {{ item.content }}
@@ -26,9 +26,9 @@ form.flex.flex-wrap.-mx-4
       div
         button.radio(
           type='button'
-          v-for='item in accounts'
+          v-for='(item, index) in accounts'
           :class='{ active: (account.name === item.name) }'
-          @click='account = item'
+          @click='accountIndex = index'
         )
           span.name {{ item.name }}
           span.content {{ item.content }}
@@ -89,7 +89,8 @@ const qualifications = [
     accountsLimit: 600,
   },
 ]
-const qualification = ref(qualifications[0])
+const qualificationIndex = useLocalStorage('qualificationIndex', 0)
+const qualification = computed(() => qualifications[qualificationIndex.value])
 
 const accounts = [
   {
@@ -104,7 +105,8 @@ const accounts = [
   },
 ]
 
-const account = ref(accounts[0])
+const accountIndex = useLocalStorage('accountIndex', 0)
+const account = computed(() => accounts[accountIndex.value])
 
 const expend = useLocalStorage('expend', 10000)
 
