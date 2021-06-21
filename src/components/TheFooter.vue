@@ -1,15 +1,24 @@
 <template lang="pug">
-footer.text-sm
+footer.text-sm.mb-8
   .text-gray-700.mr-2.font-medium(class='dark:text-gray-300') 資料來源
   a.block.link(
     target='_blank'
     :href='url'
     v-for='{ url, name } in links'
   ) {{ name }}
-  iframe.mt-2(src='https://ghbtns.com/github-btn.html?user=ngseke&repo=sinopac-dual-currency-card-calculator&type=star' frameborder='0' scrolling='0' width='150' height='20' title='GitHub')
+
+  .mt-2
+    span.mr-2
+      GithubButton(href='https://github.com/ngseke/sinopac-dual-currency-card-calculator' data-color-scheme='no-preference: light; light: light; dark: dark;' aria-label='Star ngseke/sinopac-dual-currency-card-calculator on GitHub') Star
+    span
+      GithubButton(href='https://github.com/ngseke/sinopac-dual-currency-card-calculator/issues' data-color-scheme='no-preference: light; light: light; dark: dark;' data-icon='octicon-issue-opened' aria-label='Issue ngseke/sinopac-dual-currency-card-calculator on GitHub') 問題回報
 </template>
 
 <script setup>
+import { useScriptTag } from '@vueuse/core'
+
+import GithubButton from 'vue-github-button'
+
 const links = [
   {
     name: 'teofil @ [情報]  永豐幣倍下半年權益',
