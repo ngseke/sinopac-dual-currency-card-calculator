@@ -44,7 +44,7 @@ form.flex.flex-wrap.-mx-4
       div
         .title 平均回饋率
         .text-3xl.font-bold.text-gray-700(class='dark:text-gray-300')
-          template(v-if='avgRate') {{ avgRate }}%
+          template(v-if='avgRate != null && !isNaN(avgRate)') {{ avgRate }}%
           template(v-else) -
 
       div
