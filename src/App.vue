@@ -16,7 +16,7 @@
     TheFooter
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { useDark, useToggle } from '@vueuse/core'
 
 import Calculator from './components/Calculator.vue'

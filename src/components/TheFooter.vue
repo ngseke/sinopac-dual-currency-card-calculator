@@ -14,9 +14,9 @@ footer.text-sm.mb-8
       GithubButton(href='https://github.com/ngseke/sinopac-dual-currency-card-calculator/issues' data-color-scheme='no-preference: light; light: light; dark: dark;' data-icon='octicon-issue-opened' aria-label='Issue ngseke/sinopac-dual-currency-card-calculator on GitHub') 問題回報
 </template>
 
-<script setup>
-import { useScriptTag } from '@vueuse/core'
-
+<script setup lang="ts">
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 import GithubButton from 'vue-github-button'
 
 const links = [
