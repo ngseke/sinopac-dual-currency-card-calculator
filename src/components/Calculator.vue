@@ -12,26 +12,24 @@ form.flex.flex-wrap.-mx-4
     div.space-y-2
       .label 資格
       div
-        button.radio(
-          type='button'
-          v-for='(item, index) in qualifications'
-          :class='{ active: (qualification.name === item.name) }'
+        RadioButton(
+          v-for='({ name, content }, index) in qualifications'
+          :active='qualification.name === name'
+          :name='name'
+          :content='content'
           @click='qualificationIndex = index'
         )
-          span.name {{ item.name }}
-          span.content {{ item.content }}
 
     div.space-y-2
       .label 帳戶類型
       div
-        button.radio(
-          type='button'
-          v-for='(item, index) in accounts'
-          :class='{ active: (account.name === item.name) }'
+        RadioButton(
+          v-for='({ name, content }, index) in accounts'
+          :active='account.name === name'
+          :name='name'
+          :content='content'
           @click='accountIndex = index'
         )
-          span.name {{ item.name }}
-          span.content {{ item.content }}
 
   div(class='w-full lg:w-1/2 xl:w-1/3 px-4')
     .rounded-2xl.border.border-gray-300.p-5.space-y-5(class='dark:border-gray-700')
@@ -70,8 +68,10 @@ form.flex.flex-wrap.-mx-4
 </template>
 
 <script setup lang="ts">
-import { computed, ref, unref, watch } from 'vue'
+import { computed, unref, watch } from 'vue'
 import { useLocalStorage } from '@vueuse/core'
+
+import RadioButton from './RadioButton.vue'
 
 const qualifications = [
   {
@@ -190,16 +190,6 @@ const formulaTable = computed<{
 <style lang="sass" scoped>
 .label
   @apply text-gray-700 dark:text-gray-200 font-medium text-lg
-
-.radio
-  @apply inline-flex flex-col rounded-lg bg-gray-100 dark:bg-gray-800 border border-transparent p-2 px-3 mb-2 mr-2 hover:border-gray-300 focus:outline-none
-  @apply transition-colors duration-100
-  &.active
-    @apply border-gray-500 dark:border-gray-400
-  .name
-    @apply dark:text-white
-  .content
-    @apply text-xs text-gray-600 dark:text-gray-400 text-left
 
 .field
   @apply mt-1 block w-full rounded-lg bg-gray-100 dark:bg-gray-800 dark:text-white border-transparent text-xl focus:border-gray-500  focus:ring-0 text-left
