@@ -68,7 +68,9 @@ form.flex.flex-wrap.-mx-4
                 span {{ name }}
                 span.font-roboto {{ rate }}%
                 span(v-if='isOverLimit')  (已封頂)
-              .flex-1.price(:class='{ over: isOverLimit }')
+              .flex-1.price(
+                :class='{ "text-pink-600 dark:text-pink-500": isOverLimit }'
+              )
                 small $
                 span {{ value }}
             .border-b.border-gray-500.-mx-1
@@ -205,16 +207,11 @@ const formulaTable = computed<{
   @apply text-gray-700 dark:text-gray-200 font-medium text-lg
 
 .field
-  @apply mt-1 block w-full rounded-lg bg-gray-100 dark:bg-gray-800 dark:text-white border-transparent text-xl focus:border-gray-500  focus:ring-0 text-left
+  @apply mt-1 block w-full rounded-lg bg-gray-100 dark:bg-gray-800 dark:text-white border-transparent text-xl focus:border-gray-500 focus:ring-0 text-left
 
 .title
   @apply text-base font-medium text-blue-900 dark:text-blue-400
 
-.gradient-text
-  @apply bg-clip-text text-transparent bg-gradient-to-r
-
 .price
   @apply text-2xl font-bold text-right font-roboto dark:text-white
-  &.over
-    @apply text-pink-600 dark:text-pink-500
 </style>
