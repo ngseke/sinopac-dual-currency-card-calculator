@@ -36,13 +36,7 @@ const split = computed(() => props.value.split(''))
 </script>
 
 <style lang="sass" scoped>
-@keyframes char
-  from
-    transform: scale(.9)
-    opacity: .5
-
 .char
-  // @apply inline-block
   animation: char .3s
   animation-fill-mode: both
 </style>
