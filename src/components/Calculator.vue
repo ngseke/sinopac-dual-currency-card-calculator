@@ -1,6 +1,6 @@
 <template lang="pug">
 form.flex.flex-wrap.-mx-4
-  div(class='w-full lg:w-1/2 xl:w-1/3 px-4 space-y-6 mb-8')
+  div(class='w-full md:w-1/2 xl:w-1/3 px-4 space-y-6 mb-8')
     label.block
       .label 當期刷卡金額
       input.field(
@@ -31,38 +31,50 @@ form.flex.flex-wrap.-mx-4
           @click='accountIndex = index'
         )
 
-  div(class='w-full lg:w-1/2 xl:w-1/3 px-4')
-    .rounded-2xl.border.border-gray-300.p-5.space-y-5(class='dark:border-gray-700')
-      div
-        .title 回饋金額
-        .text-4xl.font-black.gradient-text.from-yellow-400.to-yellow-600
-          small $
-          | {{ format(result) }}
-
-      div
-        .title 平均回饋率
-        .text-3xl.font-bold.text-gray-700(class='dark:text-gray-300')
-          template(v-if='avgRate != null && !isNaN(avgRate)') {{ avgRate }}%
-          template(v-else) -
-
-      div
-        .title 參考算式
-        div
-          .flex.items-center(
-            v-for='{ name, value, rate, isOverLimit, sign } in formulaTable'
+  div(class='w-full md:w-1/2 xl:w-1/3 px-4')
+    div(class='rounded-2xl border border-gray-300 p-5 dark:border-gray-700')
+      div(class='flex flex-wrap w-full -mx-2 space-y-3 md:space-y-5')
+        div(class='w-full px-2')
+          .title 回饋金額
+          AnimatedText(
+            class='text-4xl font-black text-yellow-500 dark:text-yellow-400'
+            prepend='$'
+            :value='format(result)'
           )
-            div.w-6.text-lg.font-medium.text-gray-500 {{ sign }}
-            .space-x-1(class='dark:text-white')
-              span {{ name }}
-              span.font-mono {{ rate }}%
-              span(v-if='isOverLimit')  (已封頂)
-            .flex-1.price(:class='{ over: isOverLimit }')
+        div(class='w-full sm:w-2/3 px-2')
+          .title 刷卡金額
+          AnimatedText(
+            class='text-3xl font-bold dark:text-white'
+            prepend='$'
+            :value='format(expend)'
+          )
+
+        div(class='w-full sm:w-1/3 px-2')
+          .title 平均回饋率
+          AnimatedText(
+            class='text-3xl font-bold dark:text-white'
+            :append='avgRate || avgRate === 0 ? "%" : ""'
+            :value='avgRate || avgRate === 0 ? `${avgRate}` : "-"'
+          )
+
+        div(class='w-full px-2')
+          .title 參考算式
+          div
+            .flex.items-center(
+              v-for='{ name, value, rate, isOverLimit, sign } in formulaTable'
+            )
+              div.w-6.text-lg.font-medium.text-gray-500 {{ sign }}
+              .space-x-1(class='dark:text-white')
+                span {{ name }}
+                span.font-mono {{ rate }}%
+                span(v-if='isOverLimit')  (已封頂)
+              .flex-1.price(:class='{ over: isOverLimit }')
+                small $
+                span {{ value }}
+            .border-b.border-gray-500.-mx-1
+            .price
               small $
-              span {{ value }}
-          .border-b.border-gray-500.-mx-1
-          .price
-            small $
-            | {{ format(result) }}
+              | {{ format(result) }}
 
       p.italic.text-sm.text-gray-500 結果僅供參考
 </template>
@@ -72,6 +84,7 @@ import { computed, unref, watch } from 'vue'
 import { useLocalStorage } from '@vueuse/core'
 
 import RadioButton from './RadioButton.vue'
+import AnimatedText from './AnimatedText.vue'
 
 const qualifications = [
   {
@@ -195,7 +208,7 @@ const formulaTable = computed<{
   @apply mt-1 block w-full rounded-lg bg-gray-100 dark:bg-gray-800 dark:text-white border-transparent text-xl focus:border-gray-500  focus:ring-0 text-left
 
 .title
-  @apply mb-1 text-lg font-medium text-blue-900 dark:text-blue-400
+  @apply text-base font-medium text-blue-900 dark:text-blue-400
 
 .gradient-text
   @apply bg-clip-text text-transparent bg-gradient-to-r

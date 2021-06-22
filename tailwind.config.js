@@ -1,5 +1,4 @@
 module.exports = {
-  mode: 'jit',
   purge: {
     content: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
     // https://github.com/tailwindlabs/tailwindcss/issues/2943
