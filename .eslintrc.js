@@ -5,7 +5,9 @@ module.exports = {
     node: true,
   },
   extends: [
-    'standard',
+    'plugin:vue/vue3-essential',
+    '@vue/standard',
+    '@vue/typescript/recommended',
   ],
   rules: {
     'comma-dangle': ['error', {
@@ -15,5 +17,6 @@ module.exports = {
       exports: 'always-multiline',
       functions: 'only-multiline',
     }],
+    '@typescript-eslint/no-unused-vars': 'off',
   },
 }
