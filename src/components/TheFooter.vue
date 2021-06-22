@@ -1,6 +1,7 @@
 <template lang="pug">
 footer.text-sm.mb-8
   .text-gray-700.mr-2.font-medium(class='dark:text-gray-300') 資料來源
+
   a.block.link(
     target='_blank'
     :href='url'
@@ -9,9 +10,16 @@ footer.text-sm.mb-8
 
   .mt-2
     span.mr-2
-      GithubButton(href='https://github.com/ngseke/sinopac-dual-currency-card-calculator' data-color-scheme='no-preference: light; light: light; dark: dark;' aria-label='Star ngseke/sinopac-dual-currency-card-calculator on GitHub') Star
+      GithubButton(
+        :href='githubLink'
+        :data-color-scheme='colorScheme'
+      ) Star
     span
-      GithubButton(href='https://github.com/ngseke/sinopac-dual-currency-card-calculator/issues' data-color-scheme='no-preference: light; light: light; dark: dark;' data-icon='octicon-issue-opened' aria-label='Issue ngseke/sinopac-dual-currency-card-calculator on GitHub') 問題回報
+      GithubButton(
+        :href='`${githubLink}issues`'
+        :data-color-scheme='colorScheme'
+        data-icon='octicon-issue-opened'
+      ) 問題回報
 </template>
 
 <script setup lang="ts">
@@ -29,4 +37,7 @@ const links = [
     url: 'https://bank.sinopac.com/sinopacBT/webevents/2003_dualcc/index.html',
   },
 ]
+
+const colorScheme = 'no-preference: light; light: light; dark: dark;'
+const githubLink = 'https://github.com/ngseke/sinopac-dual-currency-card-calculator/'
 </script>
