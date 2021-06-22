@@ -1,5 +1,5 @@
 <template lang="pug">
-div.font-roboto
+.font-roboto
   small(v-if='prepend') {{ prepend }}
   .inline-flex
     .char(
@@ -42,7 +42,7 @@ const split = computed(() => props.value.split(''))
     opacity: .5
 
 .char
-  @apply inline-block
+  // @apply inline-block
   animation: char .3s
   animation-fill-mode: both
 </style>
