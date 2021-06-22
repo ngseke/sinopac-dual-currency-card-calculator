@@ -1,5 +1,5 @@
 <template lang="pug">
-div
+div.font-roboto
   small(v-if='prepend') {{ prepend }}
   .inline-flex
     .char(

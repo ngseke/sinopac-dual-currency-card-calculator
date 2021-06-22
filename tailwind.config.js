@@ -16,6 +16,9 @@ module.exports = {
           lg: '2rem',
         },
       },
+      fontFamily: {
+        roboto: ['Roboto Condensed'],
+      },
     },
   },
   plugins: [
