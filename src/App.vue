@@ -6,24 +6,24 @@
         div
           h1(class='mb-2 font-black bg-clip-text text-transparent bg-gradient-to-r from-gray-700 to-black dark:from-gray-100 dark:to-white text-2xl lg:text-4xl max-w-full') 永豐幣倍卡回饋計算機
           p(class='text-lg text-gray-700 dark:text-gray-200 font-roboto') 2021/07/01 ~ 2021/12/31
-        button.text-2xl.p-3(
-          type='button'
-          @click='toggleDark'
-          title='切換深色模式'
-        ) {{ isDark ? '☀️' : '🌕' }}
+        DarkModeToggleButton
       hr(class='-mx-4 xl:mx-0 my-4 xl:my-3 border-gray-200 dark:border-gray-700')
       Calculator
     TheFooter
 </template>
 
 <script setup lang="ts">
-import { useDark, useToggle } from '@vueuse/core'
+import { onMounted } from 'vue'
 
 import Calculator from './components/Calculator.vue'
 import TheFooter from './components/TheFooter.vue'
+import DarkModeToggleButton from './components/DarkModeToggleButton.vue'
 
-const isDark = useDark()
-const toggleDark = useToggle(isDark)
+onMounted(() => {
+  setTimeout(() => {
+    document.body.className += 'transition-colors duration-300'
+  }, 300)
+})
 </script>
 
 <style lang="sass">
