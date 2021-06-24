@@ -1,5 +1,5 @@
 <template lang="pug">
-form.flex.flex-wrap.-mx-4
+form.flex.flex-wrap.-mx-4.mb-4
   div(class='w-full md:w-1/2 xl:w-1/3 px-4 space-y-6 mb-8')
     label.block
       .label 當期刷卡金額
