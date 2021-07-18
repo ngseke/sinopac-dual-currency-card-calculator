@@ -9,5 +9,4 @@ hr(class='-mx-4 xl:mx-0 mb-4  border-gray-200 dark:border-gray-700')
 
 <script setup lang="ts">
 import DarkModeToggleButton from './DarkModeToggleButton.vue'
-
 </script>
